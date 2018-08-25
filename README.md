@@ -1,2 +1,5 @@
-# reddit-subscribe
-This is where we put all the API subscription projects for the API Gallery.
+#Streamdata API Gallery
+
+This is a gallery of APIs organized by Streamdata.io.
+
+You can view at: http://api.gallery.streamdata.io.

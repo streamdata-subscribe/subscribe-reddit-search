@@ -1,0 +1,245 @@
+<script type="text/javascript">
+
+	var eventSource = null;
+	var responses = [];
+
+	function process(id,name,summary)
+		{
+
+		data = responses[id];
+		//console.log(data);
+
+		document.getElementById("wrapper-"+id).innerHTML = '';
+
+		var table = document.createElement("table");
+
+		table.setAttribute("id",id);
+		table.setAttribute("width","50%");
+		table.setAttribute("border","0");
+		table.setAttribute("style","margin-top: 10px; background-color:#FFF; padding: 25px; border: 1px solid #000;");
+
+		// append a title
+		var tr = document.createElement("tr");
+		var td = document.createElement("td");
+		var hr = document.createElement("hr");
+		var strong = document.createElement("strong");
+		var text = document.createTextNode(name + ' - ' + summary);
+		strong.appendChild(text);
+		td.appendChild(strong);
+		td.appendChild(hr);
+		tr.appendChild(td);
+		table.appendChild(tr);
+
+		if(id=='reddit')
+			{
+
+			results = data.data.children;
+			total_count = results.length;
+			item_count = 0;
+			results.forEach(function(entry) {
+
+				//console.log(entry);
+
+				var tr = document.createElement("tr");
+				var td = document.createElement("td");
+				var text = document.createTextNode(entry.data.title + ' (score: ' + entry.data.score + ')');
+				a = document.createElement("a");
+				a.setAttribute("href",entry.data.url);
+				a.setAttribute("style",'color:#000; text-decoration: none;');
+				a.appendChild(text);
+				td.appendChild(a);
+				tr.appendChild(td);
+				table.appendChild(tr);
+				item_count++;
+
+				if(item_count == total_count)
+					{
+						var center = document.createElement("center");
+						center.appendChild(table);
+						document.getElementById("wrapper-"+id).appendChild(center);
+					}
+
+				});
+
+			}
+
+		if(id=='stack-exchange')
+			{
+
+			results = data.items;
+			total_count = results.length;
+			//console.log(total_count);
+			item_count = 0;
+			results.forEach(function(entry) {
+
+				//console.log(entry);
+
+				var tr = document.createElement("tr");
+				var td = document.createElement("td");
+				var text = document.createTextNode(entry.data.title + ' (views: ' + entry.data.view_count + ')');
+				a = document.createElement("a");
+				a.setAttribute("href",entry.data.url);
+				a.setAttribute("style",'color:#000; text-decoration: none;');
+				a.appendChild(text);
+				td.appendChild(a);
+				tr.appendChild(td);
+				table.appendChild(tr);
+
+				item_count++;
+
+				if(item_count == total_count)
+					{
+					var center = document.createElement("center");
+					center.appendChild(table);
+					document.getElementById("wrapper-"+id).appendChild(center);
+					}
+
+				});
+
+			}
+
+		}
+
+
+  function connect(url,token,id,name,summary) {
+
+  	console.log("url: " + url);
+  	console.log("token: " + token);
+
+    // create the StreamdataEventSource Object
+    eventSource = streamdataio.createEventSource(url, token);
+
+    eventSource
+     .onOpen(function() {
+       console.log("Streamdata Event Source connected.")
+     })
+     .onData(function(data) {
+
+			 var div = document.createElement("div");
+			 div.setAttribute("id",'wrapper-'+id);
+			 document.getElementById("updates").appendChild(div);
+
+			 responses[id] = [];
+			 responses[id] = data;
+
+			 process(id,name,summary);
+
+     })
+     .onPatch(function(patch) {
+     	 //console.log(patch);
+       jsonpatch.apply(responses[id], patch);
+       process(id,name,summary);
+
+     })
+     .onError(function(error) {
+       // displays the error message
+       console.log(error.getMessage());
+     });
+
+    // open the data stream to the REST service through streamdata.io proxy
+    eventSource.open();
+
+  };
+
+function build(openapi,id,name,summary)
+	{
+
+	// base
+	base = 'http://streamdata.subscribe.engine.laneworks.net/generate/stream/';
+
+	//openapi
+	//openapi = 'http://subscribe.streamdata.gallery/subscribe/reddit/search-istio-get/';
+
+	pull = base + '?openapi_url=' + openapi + '&id=' + id;
+  console.log(pull);
+	var response = $.ajax({
+	       url: pull,
+	       method: "get",
+	       success:function(response){
+	            console.log(response);
+	            connect(response.api_url,response.token,response.id,name,summary);
+
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+	            console.log("Status: " + textStatus);
+              console.log("Error: " + errorThrown);
+	        }
+	    });
+	}
+</script>
+
+<center>
+<table width="50%" style="background-color:#FFF; padding: 25px; border: 1px solid #000;">
+  {% assign last_name = '' %}
+  {% for listing in listing_object %}
+    {% if listing.swagger %}
+      {% if listing.swagger == "2.0" %}
+
+        {% assign api_name = "" %}
+        {% assign api_description = "" %}
+        {% assign api_image = "" %}
+        {% assign api_json_url = "" %}
+        {% assign api_json_kin_rank = "" %}
+        {% assign api_json_alexa_rank = "" %}
+
+         {% for entry in listing_object %}
+           {% if entry.name %}
+            {% for api in entry.apis %}
+               {% if entry.name == listing.x-collection-name %}
+                 {% assign api_name = entry.name %}
+                 {% assign api_slug = api_name | replace: ' ','-' | replace: '/','' | replace: '&','-' | replace: '=','-' | replace: '{','-' | replace: '}','-' | replace: '?','-' | replace: '_','-' | replace: '--','-' | downcase %}
+                 {% assign api_description = entry.description %}
+                 {% assign api_image = entry.image %}
+                 {% assign api_json_url = entry.url %}
+                 {% assign api_json_kin_rank = entry.x-kinRank %}
+                 {% assign api_json_alexa_rank = entry.x-alexaRank %}
+               {% endif %}
+             {% endfor %}
+           {% endif %}
+         {% endfor %}
+
+         {% for path in listing.paths %}
+           {% assign path_name = path[0] %}
+           {% assign api_path_slug = listing.info.title | replace: ' - ','-' | downcase %}
+           {% for method in path[1] %}
+             {% assign method_details = method[1] %}
+             {% assign verb = method[0] %}
+             {% assign api_path_slug = api_path_slug | append: '-' | append: verb | replace: '_','-' | replace: '---','-' | replace: '--','-' | downcase %}
+             {% assign api_path_summary = method_details.summary %}
+             {% assign api_path_description = method_details.description %}
+             {% assign api_path_parameters = method_details.parameters %}
+             {% assign api_path_tags = method_details.tags %}
+           {% endfor %}
+         {% endfor %}
+
+         {% if api_name != last_name %}
+         <!--<tr>
+          <td colspan="4"><hr /></td>
+				</tr>-->
+         {% endif %}
+
+         <tr>
+            <td width="10%">
+              <img src="{{ api_image }}" class="taggedLinkCard__image" alt="">
+            </td>
+            <td width="30%">
+              {{ api_name }}
+            </td>
+            <td width="40%">
+              {{ api_path_summary }}
+            </td>
+            <td width="10%"><a href="#" onclick="build('http://{{ site.url }}/{{ tag_slug }}/{{ api_slug }}/{{ api_path_slug }}/','{{ api_slug }}','{{ api_name }}','{{ api_path_summary }}'); return false;">Subscribe</a></td>
+         </tr>
+         <tr>
+           <td id="{{ api_slug }}" colspan="4"></td>
+         </tr>
+
+         {% assign last_name = api_name %}
+
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</table>
+</center>
+
+<div id="updates"></div>
