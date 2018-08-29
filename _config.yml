@@ -3,7 +3,7 @@ url: subscribe.streamdata.gallery
 tag: Subscribe Reddit
 markdown: kramdown
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", ".DS_Store"]
-github_user: streamdata-gallery-master
+github_user: streamdata-subscribe
 github_repo: subscribe-reddit
 github_branch: master
 collections:
