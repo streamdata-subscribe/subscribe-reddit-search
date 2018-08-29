@@ -223,13 +223,12 @@ function build(openapi,id,name,summary)
               <img src="{{ api_image }}" class="taggedLinkCard__image" alt="">
             </td>
             <td width="30%">
-              {{ api_name }} - {{ api_slug }}/ -  {{ api_path_slug }}/
-
-							https://raw.githubusercontent.com/streamdata-subscribe/subscribe-reddit/master/_listings/reddit/search-istio-get.md
+              {{ api_name }}
             </td>
-            <td width="40%">
+            <td width="35%">
               {{ api_path_summary }}
             </td>
+						<td width="35%"><a href="https://raw.githubusercontent.com/{{ site.github_user }}/{{ site.github_repo }}/master/_listings/{{ api_slug }}/{{ api_path_slug }}.md" target="_blank">OpenAPI</a></td>
             <td width="10%"><a href="#" onclick="build('http://{{ site.url }}/{{ tag_slug }}/{{ api_slug }}/{{ api_path_slug }}/','{{ api_slug }}','{{ api_name }}','{{ api_path_summary }}'); return false;">Subscribe</a></td>
          </tr>
          <tr>
