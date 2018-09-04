@@ -30,6 +30,15 @@
 			// Set with expiration
 			// Cookies.set('token', $oAuthToken, { expires: '01/01/2017' });
 			document.getElementById('github-auth-row').style.display = '';
+
+			// Setup the Github connection
+      var github = new Github({token: github_access_token,auth: "oauth"});
+      //var repo = github.getRepo($org,$repo);
+
+			var user = github.getUser();
+			console.log("user: " + user);
+
+
 		}
 
 	function process(id,name,summary)
