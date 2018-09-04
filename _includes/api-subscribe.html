@@ -161,15 +161,16 @@
 						// append a title
 						var tr = document.createElement("tr");
 						var td = document.createElement("td");
+						td.setAttribute("align","center");
 						var hr = document.createElement("hr");
 						var strong = document.createElement("strong");
-						var text_string = 'This data is being save to Github at <u>' + github_url + '</u>';
+						var text_string = 'Data Has Been Saved To GitHub!';
 						var text = document.createTextNode(text_string);
 						td.appendChild(hr);
 
 						a = document.createElement("a");
 						a.setAttribute("href",github_url);
-						a.setAttribute("style",'color:#000; text-decoration: none;');
+						a.setAttribute("style",'color:#000; text-decoration: underline;');
 						a.setAttribute("target",'_blank');
 						a.appendChild(text);
 
