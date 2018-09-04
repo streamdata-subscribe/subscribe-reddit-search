@@ -43,8 +43,6 @@
 			var user = github.getUser();
 			var repo = user.createRepo({name: github_repo_name,user: github_user_name});
 
-
-
 		}
 	else
 		{
@@ -56,11 +54,14 @@
 			var github = new Github({token: github_access_token,auth: "oauth"});
 			github_repo_name = "reddit_store";
 			var user = github.getUser();
+			console.log("github_repo_name: " + github_repo_name);
+			console.log("github_user_name: " + github_user_name);
 			var repo = user.createRepo({name: github_repo_name,user: github_user_name});
 			}
 		}
 
 	console.log('github_access_token: ' + github_access_token);
+
 	if(github_access_token!='')
 		{
 		document.getElementById('github-auth-row').style.display = '';
