@@ -136,7 +136,7 @@
 
 			results = data.data.children;
 
-			json_dump = btoa(results);
+			json_dump = results;
 			console.log("HERE2: " + json_dump);
 
 			var github = new Github({token: github_access_token,auth: "oauth"});
