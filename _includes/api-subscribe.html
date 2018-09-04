@@ -39,10 +39,7 @@
 
 			// Setup the Github connection
       var github = new Github({token: github_access_token,auth: "oauth"});
-      //var repo = github.getRepo($org,$repo);
-
 			github_repo_name = "reddit_store";
-
 			var user = github.getUser();
 			var repo = user.createRepo({name: github_repo_name,user: github_user_name});
 
@@ -52,6 +49,15 @@
 	else
 		{
 		github_access_token = Cookies.get('github_access_token');
+
+		if(github_access_token!='')
+			{
+			// Setup the Github connection
+			var github = new Github({token: github_access_token,auth: "oauth"});
+			github_repo_name = "reddit_store";
+			var user = github.getUser();
+			var repo = user.createRepo({name: github_repo_name,user: github_user_name});
+			}
 		}
 
 	console.log('github_access_token: ' + github_access_token);
