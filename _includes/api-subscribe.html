@@ -19,7 +19,7 @@
 		{
 		reddit_access_token = Cookies.get('reddit_access_token');
 		}
-	//console.log('reddit_access_token: ' + reddit_access_token);
+	console.log('reddit_access_token: ' + reddit_access_token);
 	if(reddit_access_token!='')
 		{
 		document.getElementById('reddit-auth-row').style.display = '';
@@ -30,7 +30,7 @@
 	var github_user_name_array = github_user_name.split("?");
 	github_user_name = github_user_name_array[0];
 
-	//console.log("HERE:" + github_user_name);
+	console.log("HERE:" + github_user_name);
 
 	if(github_access_token!='')
 		{
@@ -120,15 +120,15 @@
 			results = data.data.children;
 
 			json_dump = JSON.stringify(results);
-			console.log(json_dump);
+			///console.log(json_dump);
 
 			// Save it
 			var github = new Github({token: github_access_token,auth: "oauth"});
       var repo = github.getRepo(github_user_name,github_repo_name);
-
+			repo.writeNew('master','results.json', results, 'Write results.json', function(err, data) { console.log("e:" + err); console.log("d:" + data); });
+			console.log("JUST WROTE3!");
       repo.getTree('master?recursive=true', function(err, tree) {
-				console.log("IN!!!!");
-        // I do not like looping through each item in tree, but only way I found to get SHA.
+
 				if(tree)
 					{
 	        $.each(tree, function(treeKey, treeValue) {
@@ -141,7 +141,7 @@
 	          if(path==writepath)
 	            {
 	            repo.writemanual('master','results.json', json_dump, 'Save', sha, function(err) { });
-							console.log("write 11");
+							//console.log("write 11");
 	            }
 
 						});
@@ -150,7 +150,7 @@
 					{
 					writepath = 'results.json';
 					repo.write('master','results.json', json_dump, 'Save', function(err) { });
-					console.log("write 22");
+					//console.log("write 22");
 					}
 
 			});
