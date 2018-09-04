@@ -34,17 +34,12 @@
 
 	if(github_access_token!='')
 		{
-			// Setting a cookie value
 			Cookies.set('github_access_token', github_access_token);
-			//console.log("setting github token!");
-			//Cookies.get('token');
 
-			// Set with expiration
-			// Cookies.set('token', $oAuthToken, { expires: '01/01/2017' });
-
-			// Setup the Github connection
       var github = new Github({token: github_access_token,auth: "oauth"});
 			github_repo_name = "reddit-store";
+
+
 			var user = github.getUser();
 
 			Cookies.set('github_repo_name', github_repo_name);
@@ -61,9 +56,11 @@
 
 		if(github_access_token!='')
 			{
-			// Setup the Github connection
+
 			var github = new Github({token: github_access_token,auth: "oauth"});
+
 			github_repo_name = "reddit-store";
+
 			var user = github.getUser();
 
 			Cookies.set('github_repo_name', github_repo_name);
