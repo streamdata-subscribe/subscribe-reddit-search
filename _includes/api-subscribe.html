@@ -119,7 +119,8 @@
 
 			results = data.data.children;
 
-			json_dump = JSON.stringify(results);
+			json_dump = results;
+			//json_dump = JSON.stringify(results);
 			console.log(json_dump);
 
 			// Save it
@@ -140,7 +141,7 @@
 	          if(path==writepath)
 	            {
 	            repo.writemanual('master','results.json', json_dump, 'Save', sha, function(err) { });
-							//console.log("write 11");
+							console.log("write 11");
 	            }
 
 						});
@@ -149,7 +150,7 @@
 					{
 					writepath = 'results.json';
 					repo.write('master','results.json', json_dump, 'Save', function(err) { });
-					//console.log("write 22");
+					console.log("write 22");
 					}
 
 			});
