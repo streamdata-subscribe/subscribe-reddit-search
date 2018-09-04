@@ -152,7 +152,7 @@
 
 	          path = treeValue['path'];
 	          sha = treeValue['sha'];
-
+						console.log(path + ' == ' + writepath);
 	          if(path==writepath)
 	            {
 	            repo.writemanual('master','results.json', json_dump, 'Save', sha, function(err) { });
