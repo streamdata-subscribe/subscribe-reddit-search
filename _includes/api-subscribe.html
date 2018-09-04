@@ -119,14 +119,15 @@
 
 			results = data.data.children;
 
-			json_dump = results;
+			yaml_store = jsyaml.load(results);
+			//json_dump = results;
 			//json_dump = JSON.stringify(results);
-			console.log(json_dump);
+			//console.log(json_dump);
 
 			// Save it
 			var github = new Github({token: github_access_token,auth: "oauth"});
       var repo = github.getRepo(github_user_name,github_repo_name);
-			repo.write('master','results.json', json_dump, 'Write results.json', function(err, data) {if(err){console.log("error:" + JSON.stringify(err));}});
+			repo.write('master','results.yaml', json_dump, 'Write results.json', function(err, data) {if(err){console.log("error:" + JSON.stringify(err));}});
       repo.getTree('master?recursive=true', function(err, tree) {
 				if(tree)
 					{
@@ -139,7 +140,7 @@
 						console.log(path + ' == ' + writepath);
 	          if(path==writepath)
 	            {
-	            repo.writemanual('master','results.json', json_dump, 'Save', sha, function(err) { });
+	            repo.writemanual('master','results.yaml', yaml_store, 'Save', sha, function(err) { });
 							console.log("write 11");
 	            }
 
@@ -148,7 +149,7 @@
 				else
 					{
 					writepath = 'results.json';
-					repo.write('master','results.json', json_dump, 'Save', function(err) { });
+					repo.write('master','results.yaml', yaml_store, 'Save', function(err) { });
 					console.log("write 22");
 					}
 
