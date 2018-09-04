@@ -140,7 +140,7 @@
 	          path = treeValue['path'];
 	          sha = treeValue['sha'];
 						//console.log(path + ' == ' + writepath);
-	          if(path==writepath)
+	          if(path=='results.json')
 	            {
 	            repo.writemanual('master','results.json', results64, 'Save', sha, function(err) { });
 							console.log("write 11");
