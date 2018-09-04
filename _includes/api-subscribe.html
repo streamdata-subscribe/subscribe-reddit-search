@@ -142,13 +142,11 @@
 			var github = new Github({token: github_access_token,auth: "oauth"});
 
       var repo = github.getRepo(github_user_name,github_repo_name);
+			repo.write('master','results.json', results, 'Write results.json', function(err) { });
       repo.getTree('master?recursive=true', function(err, tree) {
 
 				if(tree)
 					{
-
-					var mrepo = github.getRepo(github_user_name,github_repo_name);
-					mrepo.write('master','results.json', results, 'Write results.json', function(err) { });
 
 	        $.each(tree, function(treeKey, treeValue) {
 
