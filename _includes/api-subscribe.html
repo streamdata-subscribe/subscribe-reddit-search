@@ -54,8 +54,7 @@
 
 			var repo = github.getRepo(github_user_name,github_repo_name);
 
-			writepath = 'README.md';
-			repo.write('master',writepath, "#Reddit Store", 'Create README', function(err) { });
+			repo.write('master','README.md', "#Reddit Store", 'Create README', function(err) { });
 		}
 	else
 		{
@@ -75,8 +74,7 @@
 
 			var repo = github.getRepo(github_user_name,github_repo_name);
 
-			writepath = 'README.md';
-			repo.write('master',writepath, "#Reddit Store", 'Create README', function(err) { });
+			repo.write('master','README.md', "#Reddit Store", 'Create README', function(err) { });
 			}
 		}
 
