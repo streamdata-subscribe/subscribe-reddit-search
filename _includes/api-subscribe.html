@@ -126,7 +126,7 @@
       var repo = github.getRepo(github_user_name,github_repo_name);
 
       repo.getTree('master?recursive=true', function(err, tree) {
-				console.log("IN!");
+				console.log("IN!!");
         // I do not like looping through each item in tree, but only way I found to get SHA.
 				if(tree)
 					{
