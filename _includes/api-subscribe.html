@@ -17,6 +17,7 @@
 	if(reddit_access_token!='')
 		{
 			table = document.getElementById('master-table');
+			var tr = document.createElement("tr");
 			var td = document.createElement("td");
 			var strong = document.createElement("strong");
 			var text = document.createTextNode('You Are Authenticated With Reddit!');
@@ -70,6 +71,7 @@
 	if(github_access_token!='')
 		{
 		table = document.getElementById('master-table');
+		var tr = document.createElement("tr");
 		var td = document.createElement("td");
 		var strong = document.createElement("strong");
 		var text = document.createTextNode('You Are Authenticated With GitHub!');
