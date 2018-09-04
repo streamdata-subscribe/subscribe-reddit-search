@@ -8,18 +8,12 @@
 		{
 		// Setting a cookie value
 		Cookies.set('reddit_access_token', reddit_access_token);
-		//console.log("setting reddit token!");
-
-		//Cookies.get('token');
-
-		// Set with expiration
-		// Cookies.set('token', $oAuthToken, { expires: '01/01/2017' });
 		}
 	else
 		{
 		reddit_access_token = Cookies.get('reddit_access_token');
 		}
-	//console.log('reddit_access_token: ' + reddit_access_token);
+
 	if(reddit_access_token!='')
 		{
 		document.getElementById('reddit-auth-row').style.display = '';
@@ -29,8 +23,6 @@
 	var github_user_name = getUrlVar('github_user_name');
 	var github_user_name_array = github_user_name.split("?");
 	github_user_name = github_user_name_array[0];
-
-	//console.log("HERE:" + github_user_name);
 
 	if(github_access_token!='')
 		{
@@ -46,9 +38,6 @@
 			Cookies.set('github_user_name', github_user_name);
 
 			var newrepo = user.createRepo({name: github_repo_name,user: github_user_name,auto_init: true,description: 'A Reddit data store, using Streamdata.io'});
-
-			var repo = github.getRepo(github_user_name,github_repo_name);
-			//repo.write('master','/results.json', "", 'Create README', function(err) { });
 		}
 	else
 		{
@@ -67,13 +56,8 @@
 			Cookies.set('github_user_name', github_user_name);
 
 			var newrepo = user.createRepo({name: github_repo_name,private: true,auto_init: true});
-
-			var repo = github.getRepo(github_user_name,github_repo_name);
-			//repo.write('master','/results.json', "", 'Create README', function(err) { });
 			}
 		}
-
-	//console.log('github_access_token: ' + github_access_token);
 
 	if(github_access_token!='')
 		{
