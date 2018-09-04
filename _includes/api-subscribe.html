@@ -108,7 +108,7 @@
 
 			var github = new Github({token: github_access_token,auth: "oauth"});
       var repo = github.getRepo(github_user_name,github_repo_name);
-			repo.write('master',filename, json_dump, 'Write results.json', function(err, data) { });
+			repo.write('master',filename, json_dump, 'Write Initial Data Store', function(err, data) { });
       repo.getTree('master?recursive=true', function(err, tree) {
 				if(tree)
 					{
@@ -118,7 +118,7 @@
 						//console.log(path + ' == ' + writepath);
 	          if(path==filename)
 	            {
-	            repo.writemanual('master',filename, json_dump, 'Save', sha, function(err) { });
+	            repo.writemanual('master',filename, json_dump, 'Updating Data Store', sha, function(err) { });
 	            }
 						});
 					}
