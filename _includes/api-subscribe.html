@@ -14,8 +14,8 @@
 		reddit_access_token = Cookies.get('reddit_access_token');
 		}
 
-	console.log("reddit_access_token: " + reddit_access_token);
-	if(reddit_access_token!='')
+	//console.log("reddit_access_token: " + reddit_access_token);
+	if(reddit_access_token)
 		{
 			table = document.getElementById('master-table');
 			var tr = document.createElement("tr");
@@ -69,8 +69,8 @@
 			}
 		}
 
-	console.log("github_access_token: " + github_access_token);
-	if(github_access_token!='')
+	//console.log("github_access_token: " + github_access_token);
+	if(github_access_token)
 		{
 		table = document.getElementById('master-table');
 		var tr = document.createElement("tr");
