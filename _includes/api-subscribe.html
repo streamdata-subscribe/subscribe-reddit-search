@@ -41,8 +41,8 @@
       var github = new Github({token: github_access_token,auth: "oauth"});
 			github_repo_name = "reddit_store";
 			var user = github.getUser();
-			console.log("github_repo_name: " + github_repo_name);
-			console.log("github_user_name: " + github_user_name);
+			Cookies.set('github_repo_name', github_repo_name);
+			Cookies.set('github_user_name', github_user_name);
 			var repo = user.createRepo({name: github_repo_name,user: github_user_name});
 
 		}
@@ -56,8 +56,8 @@
 			var github = new Github({token: github_access_token,auth: "oauth"});
 			github_repo_name = "reddit_store";
 			var user = github.getUser();
-			console.log("github_repo_name: " + github_repo_name);
-			console.log("github_user_name: " + github_user_name);
+			Cookies.set('github_repo_name', github_repo_name);
+			Cookies.set('github_user_name', github_user_name);
 			var repo = user.createRepo({name: github_repo_name,private: true});
 			}
 		}
@@ -98,6 +98,9 @@
 
 		if(id=='reddit')
 			{
+
+			github_user_name = Cookies.get('github_user_name');
+			github_repo_name = Cookies.get('github_repo_name');	
 
 			console.log("PROCESSING github_user_name: " + github_user_name);
 			console.log("PROCESSING github_repo_name: " + github_repo_name);
@@ -170,7 +173,7 @@
 		}
 
 
-  function connect(url,token,id,name,summary,github_user_name,github_repo_name) {
+  function connect(url,token,id,name,summary) {
 
   	console.log("url: " + url);
   	console.log("token: " + token);
@@ -225,9 +228,6 @@
 function build(openapi,id,name,summary)
 	{
 
-		console.log("BUILD github_user_name: " + github_user_name);
-		console.log("BUILD github_repo_name: " + github_repo_name);
-
 	// base
 	base = 'http://streamdata.subscribe.engine.laneworks.net/generate/stream/';
 
@@ -241,7 +241,7 @@ function build(openapi,id,name,summary)
 	       method: "get",
 	       success:function(response){
 	            console.log(response);
-	            connect(response.api_url,response.token,response.id,name,summary,github_user_name,github_repo_name);
+	            connect(response.api_url,response.token,response.id,name,summary);
 
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) {
