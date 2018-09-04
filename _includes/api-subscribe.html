@@ -48,8 +48,8 @@
 			var newrepo = user.createRepo({name: github_repo_name,user: github_user_name});
 
 			var repo = github.getRepo(github_user_name,github_repo_name);
-			repo.write('master','README.md', "#Reddit Store", 'Create README', function(err) { });
-			repo.write('master','results.json', "#Reddit Store", 'Create README', function(err) { });
+			repo.write('master','/README.md', "#Reddit Store", 'Create README', function(err) { });
+			repo.write('master','/results.json', "", 'Create README', function(err) { });
 		}
 	else
 		{
@@ -70,8 +70,8 @@
 			var newrepo = user.createRepo({name: github_repo_name,private: true});
 
 			var repo = github.getRepo(github_user_name,github_repo_name);
-			repo.write('master','README.md', "#Reddit Store", 'Create README', function(err) { });
-			repo.write('master','results.json', "#Reddit Store", 'Create README', function(err) { });
+			repo.write('master','/README.md', "#Reddit Store", 'Create README', function(err) { });
+			repo.write('master','/results.json', "", 'Create README', function(err) { });
 			}
 		}
 
