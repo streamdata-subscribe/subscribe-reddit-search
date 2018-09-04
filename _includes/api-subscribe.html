@@ -137,7 +137,7 @@
 			}
 
     // create the StreamdataEventSource Object
-    eventSource = streamdataio.createEventSource(url, token, headers, AuthStrategy.newSignatureStrategy(token, ''));
+    eventSource = streamdataio.createEventSource(url, token, headers);
 
     eventSource
      .onOpen(function() {
