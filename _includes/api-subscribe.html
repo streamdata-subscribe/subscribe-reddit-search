@@ -115,8 +115,8 @@
 			github_access_token = Cookies.get('github_access_token');
 
 
-			//results = data.data.children;
-			results64 = Base64.encode(responses[id]);
+			results = responses[id];
+			//results64 = Base64.encode(responses[id]);
 
 			//json_dump = JSON.stringify(results);
 			//console.log("1: " + json_dump);
@@ -131,7 +131,7 @@
 			// Save it
 			var github = new Github({token: github_access_token,auth: "oauth"});
       var repo = github.getRepo(github_user_name,github_repo_name);
-			repo.write('master','results.json', results64, 'Write results.json', function(err, data) {if(err){console.log("error:" + JSON.stringify(err));}});
+			repo.write('master','results.json', results, 'Write results.json', function(err, data) {if(err){console.log("error:" + JSON.stringify(err));}});
       repo.getTree('master?recursive=true', function(err, tree) {
 				if(tree)
 					{
@@ -141,7 +141,7 @@
 						//console.log(path + ' == ' + writepath);
 	          if(path=='results.json')
 	            {
-	            repo.writemanual('master','results.json', results64, 'Save', sha, function(err) { });
+	            repo.writemanual('master','results.json', results, 'Save', sha, function(err) { });
 							console.log("write 11");
 	            }
 						});
@@ -149,7 +149,7 @@
 				else
 					{
 					writepath = 'results.json';
-					repo.write('master','results.json', results64, 'Save', function(err) { });
+					repo.write('master','results.json', results, 'Save', function(err) { });
 					console.log("write 22");
 					}
 
