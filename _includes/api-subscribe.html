@@ -155,6 +155,20 @@
 						var center = document.createElement("center");
 						center.appendChild(table);
 						document.getElementById("wrapper-"+id).appendChild(center);
+
+						// append a title
+						var tr = document.createElement("tr");
+						var td = document.createElement("td");
+						var hr = document.createElement("hr");
+						var strong = document.createElement("strong");
+						var text_string = 'This data is being save to Github at http://github.com/' + github_user_name + '/' + github_repo_name;
+						var text = document.createTextNode(text_string);
+						td.appendChild(hr);
+						strong.appendChild(text);
+						td.appendChild(strong);
+						tr.appendChild(td);
+						table.appendChild(tr);
+
 					}
 
 				});
