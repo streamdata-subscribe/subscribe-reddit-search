@@ -114,21 +114,10 @@
 			github_repo_name = Cookies.get('github_repo_name');
 			github_access_token = Cookies.get('github_access_token');
 
-
 			results = data.data.children;
 
 			json_dump = unescape(encodeURIComponent(JSON.stringify(results)));
 
-			//console.log("1: " + json_dump);
-
-			//items = JSON.parse(json_dump);
-			//console.log("2: " + items);
-
-			//yaml_store = jsyaml.load(items);
-			//console.log("3: " + yaml_store);
-			//json_dump = results;
-
-			// Save it
 			var github = new Github({token: github_access_token,auth: "oauth"});
       var repo = github.getRepo(github_user_name,github_repo_name);
 			repo.write('master','results.json', json_dump, 'Write results.json', function(err, data) {if(err){console.log("error:" + JSON.stringify(err));}});
@@ -142,17 +131,13 @@
 	          if(path=='results.json')
 	            {
 	            repo.writemanual('master','results.json', json_dump, 'Save', sha, function(err) { console.log("ERROR: " + err); });
-							console.log("write 11");
 	            }
 						});
 					}
 				else
 					{
-					writepath = 'results.json';
 					repo.write('master','results.json', json_dump, 'Save', function(err) { });
-					console.log("write 22");
 					}
-
 			});
 
 			total_count = results.length;
