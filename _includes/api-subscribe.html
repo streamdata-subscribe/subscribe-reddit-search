@@ -136,13 +136,13 @@
 
 			results = data.data.children;
 
-			json_dump = results;
+			//json_dump = results;
 			//console.log("HERE2: " + json_dump);
 
 			var github = new Github({token: github_access_token,auth: "oauth"});
       var repo = github.getRepo(github_user_name,github_repo_name);
 
-			repo.write('master','results.json', json_dump, 'Write results.json', function(err) { });
+			repo.write('master','results.json', results, 'Write results.json', function(err) { });
 			console.log("write 111111");
 
       repo.getTree('master?recursive=true', function(err, tree) {
@@ -158,7 +158,7 @@
 						console.log(path + ' == ' + writepath);
 	          if(path==writepath)
 	            {
-	            repo.writemanual('master','results.json', json_dump, 'Save', sha, function(err) { });
+	            repo.writemanual('master','results.json', results, 'Save', sha, function(err) { });
 							console.log("write 11");
 	            }
 
@@ -167,7 +167,7 @@
 				else
 					{
 					writepath = 'results.json';
-					repo.write('master','results.json', json_dump, 'Save', function(err) { });
+					repo.write('master','results.json', results, 'Save', function(err) { });
 					console.log("write 22");
 					}
 
