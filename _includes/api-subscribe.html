@@ -45,7 +45,7 @@
 			Cookies.set('github_repo_name', github_repo_name);
 			Cookies.set('github_user_name', github_user_name);
 
-			var newrepo = user.createRepo({name: github_repo_name,user: github_user_name,auto_init: true});
+			var newrepo = user.createRepo({name: github_repo_name,user: github_user_name,auto_init: true,description: 'A Reddit data store, using Streamdata.io.'});
 
 			var repo = github.getRepo(github_user_name,github_repo_name);
 			//repo.write('master','/results.json', "", 'Create README', function(err) { });
@@ -66,7 +66,7 @@
 			Cookies.set('github_repo_name', github_repo_name);
 			Cookies.set('github_user_name', github_user_name);
 
-			var newrepo = user.createRepo({name: github_repo_name,private: true,auto_init: true});
+			var newrepo = user.createRepo({name: github_repo_name,private: true,auto_init: true,description: 'A Reddit data store, using Streamdata.io.'});
 
 			var repo = github.getRepo(github_user_name,github_repo_name);
 			//repo.write('master','/results.json', "", 'Create README', function(err) { });
