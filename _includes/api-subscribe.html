@@ -119,8 +119,8 @@
 
 			results = data.data.children;
 
-			json_dump = btoa(unescape(JSON.stringify(results)));
-			console.log(json_dump);
+			json_dump = btoa(JSON.stringify(results));
+			console.log("HERE: " + json_dump);
 
 			// Save it
 			var github = new Github({token: github_access_token,auth: "oauth"});
