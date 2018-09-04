@@ -117,7 +117,8 @@
 
 			results = data.data.children;
 
-			json_dump = JSON.stringify(results);
+			json_dump = unescape(encodeURIComponent(JSON.stringify(results)));
+
 			//console.log("1: " + json_dump);
 
 			//items = JSON.parse(json_dump);
