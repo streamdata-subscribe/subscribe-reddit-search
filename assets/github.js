@@ -620,7 +620,7 @@
 
       this.write = function(branch, path, content, message, cb) {
         that.getSha(branch, path, function(err, sha) {
-          if (err && err.error!=404) return cb(err);
+          //if (err && err.error!=404) return cb(err);
           _request("PUT", repoPath + "/contents/" + path, {
             message: message,
             content: btoa(content),
