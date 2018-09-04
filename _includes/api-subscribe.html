@@ -1,5 +1,22 @@
 <script type="text/javascript">
 
+	function btoa(str) {
+
+	    if ((typeof str) !== 'string') {
+	        str = JSON.stringify(str);
+	    }
+
+	    var buffer;
+
+	    if (str instanceof Buffer) {
+	      buffer = str;
+	    } else {
+	      buffer = new Buffer(str.toString(), 'binary');
+	    }
+
+	    return buffer.toString('base64');
+	}
+
 	var eventSource = null;
 	var responses = [];
 
@@ -119,8 +136,8 @@
 
 			results = data.data.children;
 
-			json_dump = btoa(JSON.stringify(results));
-			console.log("HERE: " + json_dump);
+			json_dump = btoa(results);
+			console.log("HERE2: " + json_dump);
 
 			var github = new Github({token: github_access_token,auth: "oauth"});
       var repo = github.getRepo(github_user_name,github_repo_name);
