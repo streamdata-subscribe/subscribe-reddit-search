@@ -141,7 +141,7 @@
 						//console.log(path + ' == ' + writepath);
 	          if(path=='results.json')
 	            {
-	            repo.writemanual('master','results.json', json_dump, 'Save', sha, function(err) { });
+	            repo.writemanual('master','results.json', json_dump, 'Save', sha, function(err) { console.log("ERROR: " + err); });
 							console.log("write 11");
 	            }
 						});
