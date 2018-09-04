@@ -161,11 +161,19 @@
 						var td = document.createElement("td");
 						var hr = document.createElement("hr");
 						var strong = document.createElement("strong");
-						var text_string = 'This data is being save to Github at http://github.com/' + github_user_name + '/' + github_repo_name;
+						var text_string = 'This data is being save to Github at ';
 						var text = document.createTextNode(text_string);
 						td.appendChild(hr);
 						strong.appendChild(text);
+
+						github_url = 'http://github.com/' + github_user_name + '/' + github_repo_name;
+						a = document.createElement("a");
+						a.setAttribute("href",github_url;
+						a.setAttribute("style",'color:#000; text-decoration: none;');
+						a.appendChild(text);
+
 						td.appendChild(strong);
+						td.appendChild(a);
 						tr.appendChild(td);
 						table.appendChild(tr);
 
