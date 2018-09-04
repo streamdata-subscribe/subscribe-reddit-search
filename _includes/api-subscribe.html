@@ -14,13 +14,16 @@
 
 		// Set with expiration
 		// Cookies.set('token', $oAuthToken, { expires: '01/01/2017' });
-		document.getElementById('reddit-auth-row').style.display = '';
 		}
 	else
 		{
 		reddit_access_token = Cookies.get('reddit_access_token');
 		}
 	console.log('reddit_access_token: ' + reddit_access_token);
+	if(reddit_access_token!='')
+		{
+		document.getElementById('reddit-auth-row').style.display = '';
+		}
 
 	var github_access_token = getUrlVar('github_access_token');
 	if(github_access_token!='')
@@ -32,7 +35,6 @@
 
 			// Set with expiration
 			// Cookies.set('token', $oAuthToken, { expires: '01/01/2017' });
-			document.getElementById('github-auth-row').style.display = '';
 
 			// Setup the Github connection
       var github = new Github({token: github_access_token,auth: "oauth"});
@@ -48,6 +50,10 @@
 		}
 
 	console.log('github_access_token: ' + github_access_token);
+	if(github_access_token!='')
+		{
+		document.getElementById('github-auth-row').style.display = '';
+		}
 
 	function process(id,name,summary)
 		{
