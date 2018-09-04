@@ -41,8 +41,11 @@
       var github = new Github({token: github_access_token,auth: "oauth"});
       //var repo = github.getRepo($org,$repo);
 
-			var user = github.getUser();
-			console.log("user: " + JSON.stringify(user));
+			github_repo_name = "reddit_store";
+
+			var repo = github.createRepo({name: github_repo_name,user: github_user_name});
+
+
 
 		}
 	else
