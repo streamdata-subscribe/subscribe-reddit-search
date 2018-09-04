@@ -125,9 +125,8 @@
 			// Save it
 			var github = new Github({token: github_access_token,auth: "oauth"});
       var repo = github.getRepo(github_user_name,github_repo_name);
-			var user = github.getUser();
-			user.writeNew('master','results.json', results, 'Write results.json', function(err, data) { console.log("e:" + err); console.log("d:" + data); });
-			console.log("JUST WROTE3!");
+			repo.writeNew('master','results.json', results, 'Write results.json', function(err, data) { console.log("e:" + err); console.log("d:" + data); });
+			console.log("JUST WROTE4!");
       repo.getTree('master?recursive=true', function(err, tree) {
 
 				if(tree)
