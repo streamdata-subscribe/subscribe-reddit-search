@@ -137,7 +137,7 @@
 
 	          path = treeValue['path'];
 	          sha = treeValue['sha'];
-						console.log(path + ' == ' + writepath);
+						//console.log(path + ' == ' + writepath);
 	          if(path==writepath)
 	            {
 	            repo.writemanual('master','results.yaml', yaml_store, 'Save', sha, function(err) { });
