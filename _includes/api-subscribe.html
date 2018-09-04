@@ -121,8 +121,10 @@
 			console.log("1: " + json_dump);
 
 			items = JSON.parse(json_dump);
+			console.log("2: " + items);
+
 			yaml_store = jsyaml.load(items);
-			console.log("2: " + yaml_store);
+			console.log("3: " + yaml_store);
 			//json_dump = results;
 
 			// Save it
