@@ -280,18 +280,18 @@ function build(openapi,id,name,summary)
 	//openapi = 'http://subscribe.streamdata.gallery/subscribe/reddit/search-istio-get/';
 
 	pull = base + '?openapi_url=' + openapi + '&id=' + id;
-  console.log(pull);
+  //console.log(pull);
 	var response = $.ajax({
 	       url: pull,
 	       method: "get",
 	       success:function(response){
-	            console.log(response);
+	            //console.log(response);
 	            connect(response.api_url,response.token,response.id,name,summary);
 
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) {
-	            console.log("Status: " + textStatus);
-              console.log("Error: " + errorThrown);
+	            //console.log("Status: " + textStatus);
+              //console.log("Error: " + errorThrown);
 	        }
 	    });
 	}
