@@ -172,31 +172,33 @@
 						center.appendChild(table);
 						document.getElementById("wrapper-"+id).appendChild(center);
 
-						github_url = 'http://github.com/' + github_user_name + '/' + github_repo_name;
+						if(github_access_token!='')
+							{
+							github_url = 'http://github.com/' + github_user_name + '/' + github_repo_name;
 
-						// append a title
-						var tr = document.createElement("tr");
-						var td = document.createElement("td");
-						td.setAttribute("align","center");
-						var hr = document.createElement("hr");
-						var strong = document.createElement("strong");
-						var text_string = 'Data Has Been Saved To GitHub!';
-						var text = document.createTextNode(text_string);
-						td.appendChild(hr);
+							// append a title
+							var tr = document.createElement("tr");
+							var td = document.createElement("td");
+							td.setAttribute("align","center");
+							var hr = document.createElement("hr");
+							var strong = document.createElement("strong");
+							var text_string = 'Data Has Been Saved To GitHub!';
+							var text = document.createTextNode(text_string);
+							td.appendChild(hr);
 
-						a = document.createElement("a");
-						a.setAttribute("href",github_url);
-						a.setAttribute("style",'color:#000; text-decoration: underline;');
-						a.setAttribute("target",'_blank');
-						a.appendChild(text);
+							a = document.createElement("a");
+							a.setAttribute("href",github_url);
+							a.setAttribute("style",'color:#000; text-decoration: underline;');
+							a.setAttribute("target",'_blank');
+							a.appendChild(text);
 
-						strong.appendChild(a);
+							strong.appendChild(a);
 
-						td.appendChild(strong);
-						td.appendChild(a);
-						tr.appendChild(td);
-						table.appendChild(tr);
-
+							td.appendChild(strong);
+							td.appendChild(a);
+							tr.appendChild(td);
+							table.appendChild(tr);
+							}
 					}
 
 				});
