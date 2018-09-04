@@ -46,10 +46,13 @@
       var github = new Github({token: github_access_token,auth: "oauth"});
 			github_repo_name = "reddit_store";
 			var user = github.getUser();
+
 			Cookies.set('github_repo_name', github_repo_name);
 			Cookies.set('github_user_name', github_user_name);
+
 			var repo = user.createRepo({name: github_repo_name,user: github_user_name});
 			var repo = github.getRepo(github_user_name,github_repo_name);
+
 			writepath = 'results.json';
 			repo.writemanual('master',writepath, "#Reddit Store", 'Create README', function(err) { });
 		}
@@ -63,12 +66,15 @@
 			var github = new Github({token: github_access_token,auth: "oauth"});
 			github_repo_name = "reddit_store";
 			var user = github.getUser();
+
 			Cookies.set('github_repo_name', github_repo_name);
 			Cookies.set('github_user_name', github_user_name);
+
 			var repo = user.createRepo({name: github_repo_name,private: true});
+
 			var repo = github.getRepo(github_user_name,github_repo_name);
 			writepath = 'results.json';
-			repo.writemanual('master',writepath, "#Reddit Store", 'Create README', function(err) { });			
+			repo.writemanual('master',writepath, "#Reddit Store", 'Create README', function(err) { });
 			}
 		}
 
