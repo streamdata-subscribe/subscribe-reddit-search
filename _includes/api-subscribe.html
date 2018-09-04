@@ -37,8 +37,8 @@
 			Cookies.set('github_access_token', github_access_token);
 
       var github = new Github({token: github_access_token,auth: "oauth"});
-			github_repo_name = "reddit-store";
 
+			github_repo_name = "reddit-store";
 
 			var user = github.getUser();
 
@@ -46,9 +46,9 @@
 			Cookies.set('github_user_name', github_user_name);
 
 			var newrepo = user.createRepo({name: github_repo_name,user: github_user_name});
-			var repo = github.getRepo(github_user_name,github_repo_name);
 
-			repo.write('master','README.md', "#Reddit Store", 'Create README', function(err) { });
+			//var repo = github.getRepo(github_user_name,github_repo_name);
+			//repo.write('master','README.md', "#Reddit Store", 'Create README', function(err) { });
 		}
 	else
 		{
@@ -68,9 +68,8 @@
 
 			var newrepo = user.createRepo({name: github_repo_name,private: true});
 
-			var repo = github.getRepo(github_user_name,github_repo_name);
-
-			repo.write('master','README.md', "#Reddit Store", 'Create README', function(err) { });
+			//var repo = github.getRepo(github_user_name,github_repo_name);
+			//repo.write('master','README.md', "#Reddit Store", 'Create README', function(err) { });
 			}
 		}
 
