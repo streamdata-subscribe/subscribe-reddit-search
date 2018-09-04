@@ -156,17 +156,18 @@
 						center.appendChild(table);
 						document.getElementById("wrapper-"+id).appendChild(center);
 
+						github_url = 'http://github.com/' + github_user_name + '/' + github_repo_name;
+
 						// append a title
 						var tr = document.createElement("tr");
 						var td = document.createElement("td");
 						var hr = document.createElement("hr");
 						var strong = document.createElement("strong");
-						var text_string = 'This data is being save to Github at ';
+						var text_string = 'This data is being save to Github at <a href="' + github_url + '">' + github_url + '</a>';
 						var text = document.createTextNode(text_string);
 						td.appendChild(hr);
 						strong.appendChild(text);
 
-						github_url = 'http://github.com/' + github_user_name + '/' + github_repo_name;
 						a = document.createElement("a");
 						a.setAttribute("href",github_url);
 						a.setAttribute("style",'color:#000; text-decoration: none;');
