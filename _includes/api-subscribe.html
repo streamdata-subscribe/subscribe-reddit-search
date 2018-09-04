@@ -128,7 +128,7 @@
       repo.getTree('master?recursive=true', function(err, tree) {
 				console.log("IN!");
         // I do not like looping through each item in tree, but only way I found to get SHA.
-				if(treeValue)
+				if(tree)
 					{
 	        $.each(tree, function(treeKey, treeValue) {
 
