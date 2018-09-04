@@ -120,13 +120,12 @@
 			results = data.data.children;
 
 			json_dump = JSON.stringify(results);
-			///console.log(json_dump);
+			console.log(json_dump);
 
 			// Save it
 			var github = new Github({token: github_access_token,auth: "oauth"});
       var repo = github.getRepo(github_user_name,github_repo_name);
 			repo.write('master','results.json', results, 'Write results.json', function(err, data) {if(err){console.log("error:" + JSON.stringify(err));}});
-			console.log("JUST WROTE4!");
       repo.getTree('master?recursive=true', function(err, tree) {
 
 				if(tree)
