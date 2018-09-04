@@ -123,11 +123,13 @@
 			var items = Object.keys(results).map(function(key) {
 			  return [Number(key), results[key]];
 			});
-			console.log("3: " + items);
+
 			yaml_store = jsyaml.load(items);
+			console.log("3: " + yaml_store);
 			//json_dump = results;
-			//json_dump = JSON.stringify(results);
-			//console.log(json_dump);
+
+			json_dump = JSON.stringify(results);
+			console.log("4: " + json_dump);
 
 			// Save it
 			var github = new Github({token: github_access_token,auth: "oauth"});
