@@ -143,6 +143,7 @@
 
       var repo = github.getRepo(github_user_name,github_repo_name);
 			repo.write('master','results.json', results, 'Write results.json', function(err) { });
+			console.log("JUST WROTE!");
       repo.getTree('master?recursive=true', function(err, tree) {
 
 				if(tree)
