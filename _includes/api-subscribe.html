@@ -142,7 +142,6 @@
 			var github = new Github({token: github_access_token,auth: "oauth"});
 
       var repo = github.getRepo(github_user_name,github_repo_name);
-
       repo.getTree('master?recursive=true', function(err, tree) {
 
 				if(tree)
