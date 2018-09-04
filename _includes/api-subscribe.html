@@ -15,6 +15,7 @@
 
 		// Set with expiration
 		// Cookies.set('token', $oAuthToken, { expires: '01/01/2017' });
+		document.getElementById('reddit-auth-row').style.display = '';
 		}
 
 	var github_access_token = getUrlVar('github_access_token');
@@ -122,9 +123,21 @@
 
   	console.log("url: " + url);
   	console.log("token: " + token);
+		console.log("reddit_access_token: " + reddit_access_token);
+
+		userAgent = 'Reddit Topic Subscribe/0.1 by Streamdata.io';
+
+		if(reddit_access_token!='')
+			{
+			var headers = ['Authorization: Basic ' + reddit_access_token,'User-Agent: ' + userAgent];
+			}
+		else
+			{
+			var headers = ['User-Agent: ' + userAgent];
+			}
 
     // create the StreamdataEventSource Object
-    eventSource = streamdataio.createEventSource(url, token);
+    eventSource = streamdataio.createEventSource(url, token, headers, AuthStrategy.newSignatureStrategy(token, ''));
 
     eventSource
      .onOpen(function() {
