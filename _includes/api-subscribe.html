@@ -170,7 +170,7 @@
 		}
 
 
-  function connect(url,token,id,name,summary) {
+  function connect(url,token,id,name,summary,github_user_name,github_repo_name) {
 
   	console.log("url: " + url);
   	console.log("token: " + token);
@@ -225,6 +225,9 @@
 function build(openapi,id,name,summary)
 	{
 
+		console.log("BUILD github_user_name: " + github_user_name);
+		console.log("BUILD github_repo_name: " + github_repo_name);
+
 	// base
 	base = 'http://streamdata.subscribe.engine.laneworks.net/generate/stream/';
 
@@ -238,7 +241,7 @@ function build(openapi,id,name,summary)
 	       method: "get",
 	       success:function(response){
 	            console.log(response);
-	            connect(response.api_url,response.token,response.id,name,summary);
+	            connect(response.api_url,response.token,response.id,name,summary,github_user_name,github_repo_name);
 
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) {
