@@ -142,8 +142,8 @@
 			var github = new Github({token: github_access_token,auth: "oauth"});
 
       var repo = github.getRepo(github_user_name,github_repo_name);
-			repo.write('master','results.json', results, 'Write results.json', function(err, data) { console.log(err); console.log(data); });
-			console.log("JUST WROTE2!");
+			repo.writeNew('master','results.json', results, 'Write results.json', function(err, data) { console.log(err); console.log(data); });
+			console.log("JUST WROTE3!");
       repo.getTree('master?recursive=true', function(err, tree) {
 
 				if(tree)
