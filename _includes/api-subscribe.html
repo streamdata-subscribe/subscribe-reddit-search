@@ -43,7 +43,8 @@
 
 			github_repo_name = "reddit_store";
 
-			var repo = github.createRepo({name: github_repo_name,user: github_user_name});
+			var user = github.getUser();
+			var repo = user.createRepo({name: github_repo_name,user: github_user_name});
 
 
 
