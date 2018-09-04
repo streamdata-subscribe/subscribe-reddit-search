@@ -139,7 +139,7 @@
 
 	          if(path==writepath)
 	            {
-	            //repo.writemanual('master',writepath, json_dump, 'Save', sha, function(err) { });
+	            repo.writemanual('master',writepath, json_dump, 'Save', sha, function(err) { });
 							console.log("write 1");
 	            }
 
@@ -148,7 +148,7 @@
 				else
 					{
 					writepath = 'results.json';
-					//repo.writemanual('master',writepath, json_dump, 'Save', function(err) { });
+					repo.write('master',writepath, json_dump, 'Save', function(err) { });
 					console.log("write 2");
 					}
 
