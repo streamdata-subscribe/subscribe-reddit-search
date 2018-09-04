@@ -1,22 +1,5 @@
 <script type="text/javascript">
 
-	function btoa(str) {
-
-	    if ((typeof str) !== 'string') {
-	        str = JSON.stringify(str);
-	    }
-
-	    var buffer;
-
-	    if (str instanceof Buffer) {
-	      buffer = str;
-	    } else {
-	      buffer = new Buffer(str.toString(), 'binary');
-	    }
-
-	    return buffer.toString('base64');
-	}
-
 	var eventSource = null;
 	var responses = [];
 
@@ -62,7 +45,7 @@
 			Cookies.set('github_repo_name', github_repo_name);
 			Cookies.set('github_user_name', github_user_name);
 
-			var newrepo = user.createRepo({name: github_repo_name,user: github_user_name,auto_init: true,description: 'A Reddit data store, using Streamdata.io.'});
+			var newrepo = user.createRepo({name: github_repo_name,user: github_user_name,auto_init: true,description: 'A Reddit data store, using Streamdata.io'});
 
 			var repo = github.getRepo(github_user_name,github_repo_name);
 			//repo.write('master','/results.json', "", 'Create README', function(err) { });
@@ -83,7 +66,7 @@
 			Cookies.set('github_repo_name', github_repo_name);
 			Cookies.set('github_user_name', github_user_name);
 
-			var newrepo = user.createRepo({name: github_repo_name,private: true,auto_init: true,description: 'A Reddit data store, using Streamdata.io.'});
+			var newrepo = user.createRepo({name: github_repo_name,private: true,auto_init: true});
 
 			var repo = github.getRepo(github_user_name,github_repo_name);
 			//repo.write('master','/results.json', "", 'Create README', function(err) { });
@@ -134,31 +117,30 @@
 			//console.log("P1: " + github_user_name);
 			//console.log("P2: " + github_repo_name);
 
-			results = JSON.stringify(data.data.children);
+			results = data.data.children;
 
-			//json_dump = results;
-			//console.log("HERE2: " + json_dump);
+			json_dump = JSON.stringify(results);
+			console.log(json_dump);
 
+			// Save it
 			var github = new Github({token: github_access_token,auth: "oauth"});
-
       var repo = github.getRepo(github_user_name,github_repo_name);
-			repo.writeNew('master','results.json', results, 'Write results.json', function(err, data) { console.log("e:" + err); console.log("d:" + data); });
-			console.log("JUST WROTE3!");
-      repo.getTree('master?recursive=true', function(err, tree) {
 
+      repo.getTree('master?recursive=true', function(err, tree) {
+				console.log("IN!!!!");
+        // I do not like looping through each item in tree, but only way I found to get SHA.
 				if(tree)
 					{
-
 	        $.each(tree, function(treeKey, treeValue) {
 
 	          writepath = 'results.json';
 
 	          path = treeValue['path'];
 	          sha = treeValue['sha'];
-						console.log(path + ' == ' + writepath);
+
 	          if(path==writepath)
 	            {
-	            repo.writemanual('master','results.json', results, 'Save', sha, function(err) { });
+	            repo.writemanual('master','results.json', json_dump, 'Save', sha, function(err) { });
 							console.log("write 11");
 	            }
 
@@ -167,7 +149,7 @@
 				else
 					{
 					writepath = 'results.json';
-					repo.write('master','results.json', results, 'Save', function(err) { });
+					repo.write('master','results.json', json_dump, 'Save', function(err) { });
 					console.log("write 22");
 					}
 
