@@ -140,16 +140,16 @@
 			//console.log("HERE2: " + json_dump);
 
 			var github = new Github({token: github_access_token,auth: "oauth"});
+
       var repo = github.getRepo(github_user_name,github_repo_name);
-
-			repo.write('master','results.json', results, 'Write results.json', function(err) { });
-
-			console.log("write 111111");
 
       repo.getTree('master?recursive=true', function(err, tree) {
 
 				if(tree)
 					{
+
+							repo.write('master','results.json', results, 'Write results.json', function(err) { });
+
 	        $.each(tree, function(treeKey, treeValue) {
 
 	          writepath = 'results.json';
