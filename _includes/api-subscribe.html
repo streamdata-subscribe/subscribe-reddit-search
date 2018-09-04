@@ -114,22 +114,16 @@
 			github_repo_name = Cookies.get('github_repo_name');
 			github_access_token = Cookies.get('github_access_token');
 
-			//console.log("P1: " + github_user_name);
-			//console.log("P2: " + github_repo_name);
-			console.log("1: " + responses[id]);
+
 			results = data.data.children;
-			console.log("2: " + results);
-
-			var items = Object.keys(results).map(function(key) {
-			  return [Number(key), results[key]];
-			});
-
-			yaml_store = jsyaml.load(items);
-			console.log("3: " + yaml_store);
-			//json_dump = results;
 
 			json_dump = JSON.stringify(results);
-			console.log("4: " + json_dump);
+			console.log("1: " + json_dump);
+
+			items = JSON.parse(json_dump);
+			yaml_store = jsyaml.load(items);
+			console.log("2: " + yaml_store);
+			//json_dump = results;
 
 			// Save it
 			var github = new Github({token: github_access_token,auth: "oauth"});
