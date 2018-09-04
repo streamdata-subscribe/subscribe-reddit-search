@@ -51,10 +51,11 @@
 			Cookies.set('github_user_name', github_user_name);
 
 			var repo = user.createRepo({name: github_repo_name,user: github_user_name});
+
 			var repo = github.getRepo(github_user_name,github_repo_name);
 
 			writepath = 'README.md';
-			repo.writemanual('master',writepath, "#Reddit Store", 'Create README', function(err) { });
+			repo.write('master',writepath, "#Reddit Store", 'Create README', function(err) { });
 		}
 	else
 		{
@@ -73,8 +74,9 @@
 			var repo = user.createRepo({name: github_repo_name,private: true});
 
 			var repo = github.getRepo(github_user_name,github_repo_name);
+
 			writepath = 'README.md';
-			repo.writemanual('master',writepath, "#Reddit Store", 'Create README', function(err) { });
+			repo.write('master',writepath, "#Reddit Store", 'Create README', function(err) { });
 			}
 		}
 
