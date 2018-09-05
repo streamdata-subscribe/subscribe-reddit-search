@@ -178,6 +178,9 @@
 
 						if(github_access_token)
 							{
+							github_user_name = Cookies.get('github_user_name');
+							github_repo_name = Cookies.get('github_repo_name');
+
 							github_url = 'http://github.com/' + github_user_name + '/' + github_repo_name;
 
 							// append a title
