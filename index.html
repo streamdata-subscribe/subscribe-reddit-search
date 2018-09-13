@@ -23,7 +23,416 @@ title: Streamdata.io API Gallery - Reddit Topic Subscribe
   </table>
   </center>
 
-  {% include api-subscribe.html %}
+  <script type="text/javascript">
+
+  	var eventSource = null;
+  	var responses = [];
+
+  	var reddit_access_token = getUrlVar('reddit_access_token');
+  	if(reddit_access_token!='')
+  		{
+  		// Setting a cookie value
+  		Cookies.set('reddit_access_token', reddit_access_token);
+  		}
+  	else
+  		{
+  		reddit_access_token = Cookies.get('reddit_access_token');
+  		}
+
+  	//console.log("reddit_access_token: " + reddit_access_token);
+  	if(reddit_access_token)
+  		{
+  			table = document.getElementById('master-table');
+  			var tr = document.createElement("tr");
+  			var td = document.createElement("td");
+  			var strong = document.createElement("strong");
+  			var text = document.createTextNode('You Are Authenticated With Reddit!');
+  			strong.appendChild(text);
+  			td.appendChild(strong);
+  			td.setAttribute("align","center");
+  			tr.appendChild(td);
+  			table.appendChild(tr);
+  		}
+
+  	var github_access_token = getUrlVar('github_access_token');
+  	var github_user_name = getUrlVar('github_user_name');
+  	var github_user_name_array = github_user_name.split("?");
+  	github_user_name = github_user_name_array[0];
+
+  	if(github_access_token!='')
+  		{
+  			Cookies.set('github_access_token', github_access_token);
+
+        var github = new Github({token: github_access_token,auth: "oauth"});
+
+  			github_repo_name = "reddit-store";
+
+  			var user = github.getUser();
+
+  			Cookies.set('github_repo_name', github_repo_name);
+  			Cookies.set('github_user_name', github_user_name);
+
+  			var newrepo = user.createRepo({name: github_repo_name,user: github_user_name,auto_init: true,description: 'A Reddit data store, using Streamdata.io'});
+  		}
+  	else
+  		{
+  		github_access_token = Cookies.get('github_access_token');
+
+  		if(github_access_token!='')
+  			{
+
+  			var github = new Github({token: github_access_token,auth: "oauth"});
+
+  			github_repo_name = "reddit-store";
+
+  			var user = github.getUser();
+
+  			Cookies.set('github_repo_name', github_repo_name);
+  			Cookies.set('github_user_name', github_user_name);
+
+  			var newrepo = user.createRepo({name: github_repo_name,private: true,auto_init: true});
+  			}
+  		}
+
+  	//console.log("github_access_token: " + github_access_token);
+  	if(github_access_token)
+  		{
+  		table = document.getElementById('master-table');
+  		var tr = document.createElement("tr");
+  		var td = document.createElement("td");
+  		var strong = document.createElement("strong");
+  		var text = document.createTextNode('You Are Authenticated With GitHub!');
+  		strong.appendChild(text);
+  		td.appendChild(strong);
+  		td.setAttribute("align","center");
+  		tr.appendChild(td);
+  		table.appendChild(tr);
+  		}
+
+  	function process(id,name,summary)
+  		{
+
+  		data = responses[id];
+  		//console.log(data);
+
+  		// replace with regex
+  		filename = summary.replace(" ","-");
+  		filename = filename.replace(" ","-");
+  		filename = filename.replace(" ","-");
+  		filename = filename.replace(" ","-");
+  		filename = filename.toLowerCase();
+  		filename = filename + ".json";
+
+  		document.getElementById("wrapper-"+id).innerHTML = '';
+
+  		var table = document.createElement("table");
+
+  		table.setAttribute("id",id);
+  		table.setAttribute("width","50%");
+  		table.setAttribute("border","0");
+  		table.setAttribute("style","margin-top: 10px; background-color:#FFF; padding: 25px; border: 1px solid #000;");
+
+  		// append a title
+  		var tr = document.createElement("tr");
+  		var td = document.createElement("td");
+  		var hr = document.createElement("hr");
+  		var strong = document.createElement("strong");
+  		var text = document.createTextNode(name + ' - ' + summary);
+  		strong.appendChild(text);
+  		td.appendChild(strong);
+  		td.appendChild(hr);
+  		tr.appendChild(td);
+  		table.appendChild(tr);
+
+  		if(id=='reddit')
+  			{
+
+  			github_user_name = Cookies.get('github_user_name');
+  			github_repo_name = Cookies.get('github_repo_name');
+  			github_access_token = Cookies.get('github_access_token');
+
+  			results = data.data.children;
+
+  			json_dump = unescape(encodeURIComponent(JSON.stringify(results)));
+
+  			var github = new Github({token: github_access_token,auth: "oauth"});
+        var repo = github.getRepo(github_user_name,github_repo_name);
+  			repo.write('master',filename, json_dump, 'Write Initial Data Store', function(err, data) { });
+        repo.getTree('master?recursive=true', function(err, tree) {
+  				if(tree)
+  					{
+  	        $.each(tree, function(treeKey, treeValue) {
+  	          path = treeValue['path'];
+  	          sha = treeValue['sha'];
+  						//console.log(path + ' == ' + writepath);
+  	          if(path==filename)
+  	            {
+  	            repo.writemanual('master',filename, json_dump, 'Updating Data Store', sha, function(err) { });
+  	            }
+  						});
+  					}
+  				else
+  					{
+  					repo.write('master',filename, json_dump, 'Save', function(err) { });
+  					}
+  			});
+
+  			total_count = results.length;
+  			item_count = 0;
+  			results.forEach(function(entry) {
+
+  				//console.log(entry);
+
+  				var tr = document.createElement("tr");
+  				var td = document.createElement("td");
+  				var text = document.createTextNode(entry.data.title + ' (score: ' + entry.data.score + ')');
+  				a = document.createElement("a");
+  				a.setAttribute("href",entry.data.url);
+  				a.setAttribute("style",'color:#000; text-decoration: none;');
+  				a.appendChild(text);
+  				td.appendChild(a);
+  				tr.appendChild(td);
+  				table.appendChild(tr);
+  				item_count++;
+
+  				if(item_count == total_count)
+  					{
+  						var center = document.createElement("center");
+  						center.appendChild(table);
+  						document.getElementById("wrapper-"+id).appendChild(center);
+
+  						if(github_access_token)
+  							{
+  							github_user_name = Cookies.get('github_user_name');
+  							github_repo_name = Cookies.get('github_repo_name');
+
+  							github_url = 'http://github.com/' + github_user_name + '/' + github_repo_name;
+
+  							// append a title
+  							var tr = document.createElement("tr");
+  							var td = document.createElement("td");
+  							td.setAttribute("align","center");
+  							var hr = document.createElement("hr");
+  							var strong = document.createElement("strong");
+  							var text_string = 'Data Has Been Saved To GitHub!';
+  							var text = document.createTextNode(text_string);
+  							td.appendChild(hr);
+
+  							a = document.createElement("a");
+  							a.setAttribute("href",github_url);
+  							a.setAttribute("style",'color:#000; text-decoration: underline;');
+  							a.setAttribute("target",'_blank');
+  							a.appendChild(text);
+
+  							strong.appendChild(a);
+
+  							td.appendChild(strong);
+  							td.appendChild(a);
+  							tr.appendChild(td);
+  							table.appendChild(tr);
+  							}
+  					}
+
+  				});
+
+  			}
+
+  		if(id=='stack-exchange')
+  			{
+
+  			results = data.items;
+  			total_count = results.length;
+  			//console.log(total_count);
+  			item_count = 0;
+  			results.forEach(function(entry) {
+
+  				//console.log(entry);
+
+  				var tr = document.createElement("tr");
+  				var td = document.createElement("td");
+  				var text = document.createTextNode(entry.data.title + ' (views: ' + entry.data.view_count + ')');
+  				a = document.createElement("a");
+  				a.setAttribute("href",entry.data.url);
+  				a.setAttribute("style",'color:#000; text-decoration: none;');
+  				a.appendChild(text);
+  				td.appendChild(a);
+  				tr.appendChild(td);
+  				table.appendChild(tr);
+
+  				item_count++;
+
+  				if(item_count == total_count)
+  					{
+  					var center = document.createElement("center");
+  					center.appendChild(table);
+  					document.getElementById("wrapper-"+id).appendChild(center);
+  					}
+
+  				});
+
+  			}
+
+  		}
+
+
+    function connect(url,token,id,name,summary) {
+
+    	console.log("url: " + url);
+  		console.log("name: " + name);
+  		console.log("summary: " + summary);
+    	//console.log("token: " + token);
+  		//console.log("reddit_access_token: " + reddit_access_token);
+
+  		userAgent = 'Reddit Topic Subscribe/0.1 by Streamdata.io';
+
+  		if(reddit_access_token!='')
+  			{
+  			var headers = ['Authorization: Basic ' + reddit_access_token,'User-Agent: ' + userAgent];
+  			}
+  		else
+  			{
+  			var headers = ['User-Agent: ' + userAgent];
+  			}
+
+      // create the StreamdataEventSource Object
+      eventSource = streamdataio.createEventSource(url, token, headers);
+
+      eventSource
+       .onOpen(function() {
+         //console.log("Streamdata Event Source connected.")
+       })
+       .onData(function(data) {
+
+  			 var div = document.createElement("div");
+  			 div.setAttribute("id",'wrapper-'+id);
+  			 document.getElementById("updates").appendChild(div);
+
+  			 responses[id] = [];
+  			 responses[id] = data;
+
+  			 process(id,name,summary);
+
+       })
+       .onPatch(function(patch) {
+       	 //console.log(patch);
+         jsonpatch.apply(responses[id], patch);
+         process(id,name,summary);
+
+       })
+       .onError(function(error) {
+         // displays the error message
+         console.log(error.getMessage());
+       });
+
+      // open the data stream to the REST service through streamdata.io proxy
+      eventSource.open();
+
+    };
+
+  function build(openapi,id,name,summary)
+  	{
+
+  	// base
+  	base = 'http://streamdata.subscribe.engine.laneworks.net/generate/stream/';
+
+  	//openapi
+  	//openapi = 'http://subscribe.streamdata.gallery/subscribe/reddit/search-istio-get/';
+
+    pull = base + '?openapi_url=' + openapi + '&id=' + id + '&org={{ site.github_org }}&repo={{ site.github_repo }}';
+    //console.log(pull);
+  	var response = $.ajax({
+  	       url: pull,
+  	       method: "get",
+  	       success:function(response){
+  	            //console.log(response);
+  	            connect(response.api_url,response.token,response.id,name,summary);
+
+  	        },
+  	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+  	            //console.log("Status: " + textStatus);
+                //console.log("Error: " + errorThrown);
+  	        }
+  	    });
+  	}
+  </script>
+
+  <center>
+  <table width="50%" style="background-color:#FFF; padding: 25px; border: 1px solid #000;">
+    {% assign last_name = '' %}
+    {% for listing in listing_object %}
+      {% if listing.swagger %}
+        {% if listing.swagger == "2.0" %}
+
+          {% assign api_name = "" %}
+          {% assign api_description = "" %}
+          {% assign api_image = "" %}
+          {% assign api_json_url = "" %}
+          {% assign api_json_kin_rank = "" %}
+          {% assign api_json_alexa_rank = "" %}
+
+           {% for entry in listing_object %}
+             {% if entry.name %}
+              {% for api in entry.apis %}
+                 {% if entry.name == listing.x-collection-name %}
+                   {% assign api_name = entry.name %}
+                   {% assign api_slug = api_name | replace: ' ','-' | replace: '/','' | replace: '&','-' | replace: '=','-' | replace: '{','-' | replace: '}','-' | replace: '?','-' | replace: '_','-' | replace: '--','-' | downcase %}
+                   {% assign api_description = entry.description %}
+                   {% assign api_image = entry.image %}
+                   {% assign api_json_url = entry.url %}
+                   {% assign api_json_kin_rank = entry.x-kinRank %}
+                   {% assign api_json_alexa_rank = entry.x-alexaRank %}
+                 {% endif %}
+               {% endfor %}
+             {% endif %}
+           {% endfor %}
+
+           {% for path in listing.paths %}
+             {% assign path_name = path[0] %}
+             {% assign api_path_slug = listing.info.title | replace: ' - ','-' | downcase %}
+             {% for method in path[1] %}
+               {% assign method_details = method[1] %}
+               {% assign verb = method[0] %}
+               {% assign api_path_slug = api_path_slug | append: '-' | append: verb | replace: '_','-' | replace: '---','-' | replace: '--','-' | downcase %}
+               {% assign api_path_summary = method_details.summary %}
+               {% assign api_path_description = method_details.description %}
+               {% assign api_path_parameters = method_details.parameters %}
+               {% assign api_path_tags = method_details.tags %}
+             {% endfor %}
+           {% endfor %}
+
+           {% if api_name != last_name %}
+           <!--<tr>
+            <td colspan="4"><hr /></td>
+  				</tr>-->
+           {% endif %}
+
+           <tr>
+              <td width="10%">
+                <img src="{{ api_image }}" class="taggedLinkCard__image" alt="">
+              </td>
+              <td width="30%">
+                {{ api_name }}
+              </td>
+              <td width="35%">
+                {{ api_path_summary }}
+              </td>
+  						<td width="35%"><a href="https://raw.githubusercontent.com/{{ site.github_user }}/{{ site.github_repo }}/master/_listings/{{ api_slug }}/{{ api_path_slug }}.md" target="_blank">OpenAPI</a></td>
+              <td width="10%"><a href="#" onclick="build('http://{{ site.url }}/{{ tag_slug }}/{{ api_slug }}/{{ api_path_slug }}/','{{ api_slug }}','{{ api_name }}','{{ api_path_summary }}'); return false;">Subscribe</a></td>
+           </tr>
+           <tr>
+             <td id="{{ api_slug }}" colspan="4"></td>
+           </tr>
+
+           {% assign last_name = api_name %}
+
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </table>
+  </center>
+
+  <div id="updates"></div>
+
 
   <center>
   <table width="55%" style="padding: 25px;">
